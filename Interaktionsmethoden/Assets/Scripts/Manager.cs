@@ -7,12 +7,14 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 public class Manager : MonoBehaviour {
-   private InputField portobj;
-   private InputField nameobj;
-   private Text highscoreText;
+   
    private static Manager Instance;
-   private bool advancedon = false;
-   private string name = "";
+
+   //ui
+   public string name = "";
+   public int port = 0;
+   public  bool advancedon = false;
+
    //[SerializeField]
    private List<Highscore> scorelist = new List<Highscore>();
 
@@ -31,37 +33,6 @@ public class Manager : MonoBehaviour {
       return Instance;
    }
 
-   private InputField getnameobj()
-   {
-      if (nameobj == null)
-      {
-         GameObject inputFieldGo = GameObject.FindGameObjectWithTag("name");
-         nameobj = inputFieldGo.GetComponent<InputField>();
-      }
-      return nameobj;
-   }
-
-   private InputField getportobj()
-   {
-      if (portobj == null)
-      {
-         GameObject inputFieldGo = GameObject.FindGameObjectWithTag("port");
-         portobj = inputFieldGo.GetComponent<InputField>();
-      }
-      return portobj;
-   }
-
-   private Text getscoretext()
-   {
-      if (highscoreText == null)
-      {
-         Debug.Log("level when searching" +Application.loadedLevel);
-         GameObject inputFieldGo = GameObject.FindGameObjectWithTag("highscore");
-         Debug.Log(inputFieldGo);
-         highscoreText = inputFieldGo.GetComponent<Text>();
-      }
-      return highscoreText;
-   }
   
    public void Awake()
    {
@@ -77,8 +48,20 @@ public class Manager : MonoBehaviour {
 
       // Furthermore we make sure that we don't destroy between scenes (this is optional)
       DontDestroyOnLoad(gameObject);
+      Manager.getInstance().scoreListToText();
    }
 
+   public void OnLevelWasLoaded()
+   {
+      if (Application.loadedLevel == 0)
+      {
+         Debug.Log("Updating score");
+         scoreListToText();
+         GameObject inputFieldGo = GameObject.FindGameObjectWithTag("port");
+         InputField port = inputFieldGo.GetComponent<InputField>();
+         port.text = this.port.ToString();
+      }
+   }
 
    public void ChangeScene(int sceneindex)
    {
@@ -86,36 +69,7 @@ public class Manager : MonoBehaviour {
 
    }
 
-   #region UIhandling
-   //for toggle
-   public void ToggleAdvancedModeChange()
-   {
-      advancedon = !advancedon;
-   }
-
-   //for input field
-   public void NameChanged()
-   {
-
-      name = getnameobj().text;
-   }
-
-   //for input field
-   public void PortChanged()
-   {
-      int x ;
-      int.TryParse(getportobj().text, out x);
-      getportobj().text = x.ToString();      
-   }
-
-   //for button
-   public void EndGame()
-   {
-      saveHighscore();
-      Application.Quit();
-   }
-   #endregion 
-
+ 
    //for other class to get bool
    public bool IsAdvancedOn()
    {
@@ -136,17 +90,16 @@ public class Manager : MonoBehaviour {
       scorelist.Insert(i, new Highscore(name, timeinsec));
    }
 
-   //updates highscore list
-   public void scoreListToText()
+   //updates highscore list only in main menu!!!!!
+   private void scoreListToText()
    {
-      Debug.Log(Application.loadedLevel);
       string s = "";
       foreach (Highscore h in scorelist){
          s += (h.playername + ": " + h.time.ToString() + "\n");
       }
-      Debug.Log(Application.loadedLevel);
-      Debug.Log(highscoreText);
-      getscoretext().text = s;
+      GameObject inputFieldGo = GameObject.FindGameObjectWithTag("highscore");
+      Text highscoreText = inputFieldGo.GetComponent<Text>();
+      highscoreText.text = s;
    }
 
    //

@@ -117,7 +117,6 @@ public class GameManagerScript : MonoBehaviour {
         Debug.Log("lost  " + number);
         Manager.getInstance().addnewScore(number);
         Manager.getInstance().ChangeScene(0);
-        Manager.getInstance().scoreListToText();
     }
 
 
