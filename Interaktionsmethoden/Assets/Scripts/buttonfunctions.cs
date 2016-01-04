@@ -13,37 +13,6 @@ public class buttonfunctions : MonoBehaviour {
 
    }
 
-   private InputField getnameobj()
-   {
-      if (nameobj == null)
-      {
-         GameObject inputFieldGo = GameObject.FindGameObjectWithTag("name");
-         nameobj = inputFieldGo.GetComponent<InputField>();
-      }
-      return nameobj;
-   }
-
-   private InputField getportobj()
-   {
-      if (portobj == null)
-      {
-         GameObject inputFieldGo = GameObject.FindGameObjectWithTag("port");
-         portobj = inputFieldGo.GetComponent<InputField>();
-      }
-      return portobj;
-   }
-
-   private Text getscoretext()
-   {
-      if (highscoreText == null)
-      {
-         GameObject inputFieldGo = GameObject.FindGameObjectWithTag("highscore");
-         highscoreText = inputFieldGo.GetComponent<Text>();
-      }
-      return highscoreText;
-   }
-  
-
    #region UIhandling
    //for toggle
    public void ToggleAdvancedModeChange()
