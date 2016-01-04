@@ -16,6 +16,11 @@ public class GameManagerScript : MonoBehaviour {
 
     public  float nextStartTime;
 
+    //advanced mode bool
+    private bool advancedmode = false;
+    //current gamer'S name
+    public string name = "";
+
     //GAMES
     public BoardScript game1Script;
     public game2Script game2Script;
@@ -50,7 +55,7 @@ public class GameManagerScript : MonoBehaviour {
     void Start()
     {
         status = 1;
-
+       
            
         cameras[0].rect = new Rect(0f, 0f, 1f, 1f); 
         cameras[1].rect = new Rect(0f, 0f, 0f, 0f);
@@ -81,7 +86,6 @@ public class GameManagerScript : MonoBehaviour {
     {
         if(gamePaused)
         {
-            Debug.Log("Paused");
             //Wait for unpause
             if(Input.GetButtonDown("unpause"))
             {
@@ -111,6 +115,9 @@ public class GameManagerScript : MonoBehaviour {
     public void lost(int number)
     {
         Debug.Log("lost  " + number);
+        Manager.getInstance().addnewScore(number);
+        Manager.getInstance().ChangeScene(0);
+        Manager.getInstance().scoreListToText();
     }
 
 
@@ -164,5 +171,6 @@ public class GameManagerScript : MonoBehaviour {
         game3Script.pauseGame(game3);
         game4Script.pauseGame(game4);
     }
+    
 
 }
