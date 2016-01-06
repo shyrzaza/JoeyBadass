@@ -54,31 +54,15 @@ public class GameManagerScript : MonoBehaviour {
     }
 
     void Start()
-    {
-
-        manager = GameObject.FindObjectOfType<Manager>();
-        Debug.Log(manager);
-        if(PlayerPrefs.GetInt("count") == null)
-        {
-            Debug.Log("saved");
-            PlayerPrefs.SetInt("count", 0);
-        }
-        else
-        {
-            Debug.Log("counter: " + PlayerPrefs.GetInt("count"));
-        }
-
-
+    {      
         status = 1;
        
-           
         cameras[0].rect = new Rect(0f, 0f, 1f, 1f); 
         cameras[1].rect = new Rect(0f, 0f, 0f, 0f);
         cameras[2].rect = new Rect(0f, 0f, 0f, 0f);
         cameras[3].rect = new Rect(0f, 0f, 0f, 0f);
 
-
-        
+       
         //PAUSE GAMES
         gamePaused = true;
         pauseGames(true,true,true,true);
@@ -130,11 +114,9 @@ public class GameManagerScript : MonoBehaviour {
     public void lost(int number)
     {
         Debug.Log("lost  " + number);
-
-        Debug.Log(manager);
-        manager.addnewScore(number);
-        manager.saveToPrefs();
-        manager.saveHighscore();
+        Manager.getInstance().addnewScore(timePlayed);
+        //Manager.getInstance().saveToPrefs();
+        Manager.getInstance().saveHighscore();
         Destroy(manager);
         Application.LoadLevel(0);
         

@@ -6,66 +6,58 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-public class Manager : MonoBehaviour {
-   
-   private static Manager Instance;
+public class Manager : MonoBehaviour
+{
+
+   private static Manager instance;
 
    //ui
    public string name = "";
    public int port = 0;
-   public  bool advancedon = false;
+   public bool advancedon = false;
+   public string highscoretext = ""; 
 
    //[SerializeField]
-   private List<Highscore> scorelist;
+   private List<Highscore> scorelist = new List<Highscore>();
 
    [Serializable]
-   public struct Highscore{
+   public struct Highscore
+   {
       public string playername;
-      public int time;
-      public Highscore(string p , int t){
+      public float time;
+      public Highscore(string p, float t)
+      {
          playername = p;
          time = t;
       }
    };
-   
 
-  
-   public void Awake()
+
+   public static Manager getInstance()
    {
-      // Furthermore we make sure that we don't destroy between scenes (this is optional)
-      DontDestroyOnLoad(gameObject);
-       scorelist = new List<Highscore>();
-      
+      if (instance == null)
+      {
+         Debug.Log("Creating Manager");
+         GameObject manager = new GameObject("[GameManager]");
+         instance = manager.AddComponent<Manager>();
+         DontDestroyOnLoad(manager);
+      }
+      return instance;
    }
 
-    public void Start()
-   {
-       loadHighscore();
-       scoreListToText();
-       //Update Menu
-    }
 
-  /* public void OnLevelWasLoaded()
+   //if scene one has just been opened
+   public void onSceneOne()
    {
-      if (Application.loadedLevel == 1)
+      if (Application.loadedLevel == 0)
       {
-         Debug.Log("Updating score");
+         Debug.Log("Loading score");
+         loadHighscore();
          scoreListToText();
-         GameObject inputFieldGo = GameObject.FindGameObjectWithTag("port");
-         InputField port = inputFieldGo.GetComponent<InputField>();
-         port.text = this.port.ToString();
+         GameObject.FindObjectOfType<buttonfunctions>().updateMenu(name, port, advancedon, highscoretext);
       }
    }
-   * */
 
-  /* public void ChangeScene(int sceneindex)
-   {
-      Application.LoadLevel(sceneindex);
-
-   }
-   * */
-
- 
    //for other class to get bool
    public bool IsAdvancedOn()
    {
@@ -75,38 +67,39 @@ public class Manager : MonoBehaviour {
 
    #region Highscore handling
    //adds new Score to list, takes name which was given in main menu
-   public void addnewScore(int timeinsec)
+   public void addnewScore(float timeinsec)
    {
-      int i=0;
-      while(scorelist.Count > i){
-         if(timeinsec < scorelist[i].time){
+      Debug.Log("Adding new score");
+      int i = 0;
+      while (scorelist.Count > i)
+      {
+         if (timeinsec < scorelist[i].time)
+         {
             i++;
          }
          else
          {
-             break;
+            break;
          }
       }
       scorelist.Insert(i, new Highscore(name, timeinsec));
-     
-      Debug.Log("new Score added");
    }
 
-   //updates highscore list only in main menu!!!!!
+   //updates highscoretext from list
    private void scoreListToText()
    {
       string s = "";
-      foreach (Highscore h in scorelist){
-         s += (h.playername + ": " + h.time.ToString() + "\n");
+      foreach (Highscore h in scorelist)
+      {
+         s += (h.playername + ": " + h.time.ToString("#.##") + " seconds\n");
       }
-      GameObject inputFieldGo = GameObject.FindGameObjectWithTag("highscore");
-      Text highscoreText = inputFieldGo.GetComponent<Text>();
-      highscoreText.text = s;
+      highscoretext = s;
    }
 
    //
    public void saveHighscore()
    {
+      Debug.Log("Saving highscore...");
       BinaryFormatter bf = new BinaryFormatter();
       FileStream file = File.Create(Application.persistentDataPath + "/highscore.dat");
       bf.Serialize(file, scorelist);
@@ -118,23 +111,34 @@ public class Manager : MonoBehaviour {
    {
       if (File.Exists(Application.persistentDataPath + "/highscore.dat"))
       {
+         Debug.Log("Loading highscore...");
          BinaryFormatter bf = new BinaryFormatter();
-         FileStream file = File.Open(Application.persistentDataPath + "/highscore.dat", FileMode.Open);
-         scorelist = (List<Highscore>) bf.Deserialize(file);
-         file.Close();
+         try
+         {
+            FileStream file = File.Open(Application.persistentDataPath + "/highscore.dat", FileMode.Open);
+            scorelist = (List<Highscore>)bf.Deserialize(file);
+            file.Close();
+         }
+         catch (Exception e)
+         {
+            Debug.Log("An error occured while loading the highscore. File could not be read.");
+         }
       }
    }
 
-
-
-
-
-   public void saveToPrefs()
+   public void cleanScoreFile()
    {
-       Debug.Log("saved");
-       PlayerPrefs.SetInt("highscorev" + PlayerPrefs.GetInt("count")+1, scorelist[0].time);
-       PlayerPrefs.SetString("highscoren" + PlayerPrefs.GetInt("count")+1, scorelist[0].playername);
-       PlayerPrefs.SetInt("count", PlayerPrefs.GetInt("count") + 1);
+      File.Delete(Application.persistentDataPath + "/highscore.dat");
+      scorelist.Clear();
    }
+
+  /* public void saveToPrefs()
+   {
+      Debug.Log("saved");
+      PlayerPrefs.SetInt("highscorev" + PlayerPrefs.GetInt("count") + 1, scorelist[0].time);
+      PlayerPrefs.SetString("highscoren" + PlayerPrefs.GetInt("count") + 1, scorelist[0].playername);
+      PlayerPrefs.SetInt("count", PlayerPrefs.GetInt("count") + 1);
+   }
+   */
    #endregion
 }
