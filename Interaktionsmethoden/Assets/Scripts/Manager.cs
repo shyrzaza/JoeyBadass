@@ -16,7 +16,7 @@ public class Manager : MonoBehaviour {
    public  bool advancedon = false;
 
    //[SerializeField]
-   private List<Highscore> scorelist = new List<Highscore>();
+   private List<Highscore> scorelist;
 
    [Serializable]
    public struct Highscore{
@@ -28,28 +28,22 @@ public class Manager : MonoBehaviour {
       }
    };
    
-   public static Manager getInstance()
-   {
-      return Instance;
-   }
 
   
    public void Awake()
    {
-      // First we check if there are any other instances conflicting
-      if (Instance != null && Instance != this)
-      {
-         // If that is the case, we destroy other instances
-         Destroy(gameObject);
-      }
-
-      // Here we save our singleton instance
-      Instance = this;
-
       // Furthermore we make sure that we don't destroy between scenes (this is optional)
       DontDestroyOnLoad(gameObject);
-      Manager.getInstance().scoreListToText();
+       scorelist = new List<Highscore>();
+      
    }
+
+    public void Start()
+   {
+       loadHighscore();
+       scoreListToText();
+       //Update Menu
+    }
 
   /* public void OnLevelWasLoaded()
    {
@@ -85,11 +79,17 @@ public class Manager : MonoBehaviour {
    {
       int i=0;
       while(scorelist.Count > i){
-         while(timeinsec < scorelist[i].time){
+         if(timeinsec < scorelist[i].time){
             i++;
+         }
+         else
+         {
+             break;
          }
       }
       scorelist.Insert(i, new Highscore(name, timeinsec));
+     
+      Debug.Log("new Score added");
    }
 
    //updates highscore list only in main menu!!!!!

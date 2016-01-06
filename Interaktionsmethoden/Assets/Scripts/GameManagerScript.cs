@@ -27,7 +27,7 @@ public class GameManagerScript : MonoBehaviour {
     public ButtonManagerScript game3Script;
     public game4Script game4Script;
 
-
+    Manager manager;
 
     public int status = 1;
 
@@ -54,7 +54,10 @@ public class GameManagerScript : MonoBehaviour {
     }
 
     void Start()
-    {   
+    {
+
+        manager = GameObject.FindObjectOfType<Manager>();
+        Debug.Log(manager);
         if(PlayerPrefs.GetInt("count") == null)
         {
             Debug.Log("saved");
@@ -127,10 +130,12 @@ public class GameManagerScript : MonoBehaviour {
     public void lost(int number)
     {
         Debug.Log("lost  " + number);
-        Manager.getInstance().addnewScore(number);
-       // Manager.getInstance().ChangeScene(1);
-        Manager.getInstance().saveToPrefs();
-        Destroy(Manager.getInstance().gameObject);
+
+        Debug.Log(manager);
+        manager.addnewScore(number);
+        manager.saveToPrefs();
+        manager.saveHighscore();
+        Destroy(manager);
         Application.LoadLevel(0);
         
     }
