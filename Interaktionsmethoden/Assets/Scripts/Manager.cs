@@ -51,9 +51,9 @@ public class Manager : MonoBehaviour {
       Manager.getInstance().scoreListToText();
    }
 
-   public void OnLevelWasLoaded()
+  /* public void OnLevelWasLoaded()
    {
-      if (Application.loadedLevel == 0)
+      if (Application.loadedLevel == 1)
       {
          Debug.Log("Updating score");
          scoreListToText();
@@ -62,12 +62,14 @@ public class Manager : MonoBehaviour {
          port.text = this.port.ToString();
       }
    }
+   * */
 
-   public void ChangeScene(int sceneindex)
+  /* public void ChangeScene(int sceneindex)
    {
       Application.LoadLevel(sceneindex);
 
    }
+   * */
 
  
    //for other class to get bool
@@ -123,5 +125,16 @@ public class Manager : MonoBehaviour {
       }
    }
 
+
+
+
+
+   public void saveToPrefs()
+   {
+       Debug.Log("saved");
+       PlayerPrefs.SetInt("highscorev" + PlayerPrefs.GetInt("count")+1, scorelist[0].time);
+       PlayerPrefs.SetString("highscoren" + PlayerPrefs.GetInt("count")+1, scorelist[0].playername);
+       PlayerPrefs.SetInt("count", PlayerPrefs.GetInt("count") + 1);
+   }
    #endregion
 }

@@ -41,6 +41,7 @@ public class GameManagerScript : MonoBehaviour {
         // First we check if there are any other instances conflicting
         if (Instance != null && Instance != this)
         {
+            Debug.Log("boom");
             // If that is the case, we destroy other instances
             Destroy(gameObject);
         }
@@ -53,7 +54,18 @@ public class GameManagerScript : MonoBehaviour {
     }
 
     void Start()
-    {
+    {   
+        if(PlayerPrefs.GetInt("count") == null)
+        {
+            Debug.Log("saved");
+            PlayerPrefs.SetInt("count", 0);
+        }
+        else
+        {
+            Debug.Log("counter: " + PlayerPrefs.GetInt("count"));
+        }
+
+
         status = 1;
        
            
@@ -116,7 +128,11 @@ public class GameManagerScript : MonoBehaviour {
     {
         Debug.Log("lost  " + number);
         Manager.getInstance().addnewScore(number);
-        Manager.getInstance().ChangeScene(0);
+       // Manager.getInstance().ChangeScene(1);
+        Manager.getInstance().saveToPrefs();
+        Destroy(Manager.getInstance().gameObject);
+        Application.LoadLevel(0);
+        
     }
 
 
