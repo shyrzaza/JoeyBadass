@@ -53,6 +53,7 @@ public class buttonfunctions : MonoBehaviour {
       int x;
       int.TryParse(portobj.text, out x);
       Manager.getInstance().port = x;
+		Debug.Log ("port changed to " + x);
       portobj.text = x.ToString();
    }
 

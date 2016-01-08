@@ -28,8 +28,6 @@ public class GameManagerScript : MonoBehaviour {
     public ButtonManagerScript game3Script;
     public game4Script game4Script;
 
-    Manager manager;
-
     public int status = 1;
 
 
@@ -56,7 +54,9 @@ public class GameManagerScript : MonoBehaviour {
 
     void Start()
     {
-        controller = InputHandler.Instance.isActive;
+		controller = InputHandler.Instance.isActive;
+		Debug.Log ("GameManager controller: " + controller);
+
         status = 1;
        
         cameras[0].rect = new Rect(0f, 0f, 1f, 1f); 
@@ -140,11 +140,14 @@ public class GameManagerScript : MonoBehaviour {
         Manager.getInstance().addnewScore(timePlayed);
         //Manager.getInstance().saveToPrefs();
         Manager.getInstance().saveHighscore();
-        Destroy(manager);
         Application.LoadLevel(0);
         
     }
 
+	public void setControlelrActive(bool active)
+	{
+		controller = active;
+	}
 
     void ChangeStatus(int newStatus)
     {

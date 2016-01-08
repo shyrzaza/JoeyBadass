@@ -15,6 +15,7 @@ public class Game2PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         controller = InputHandler.Instance.isActive;
+		Debug.Log ("Game 2 Controller: " + controller);
 	}
 	
 	// Update is called once per frame
@@ -45,6 +46,7 @@ public class Game2PlayerController : MonoBehaviour {
             float[] values = InputHandler.Instance.sliderArr;
 
             float distance = top - bottom;
+			Debug.Log (values[0]);
             float position = values[0] * distance;
             position = bottom + position;
 

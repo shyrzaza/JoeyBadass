@@ -11,10 +11,17 @@ public class BoardScript : MonoBehaviour {
     private bool paused;
     private bool controller;
 
+	public float rotationRange;
+	public float slerpScale;
+	
+	// current x and y euler angle
+	float xAngle, yAngle;
+
 	// Use this for initialization
 	void Start () {
         StartGame();
         controller = InputHandler.Instance.isActive;
+		Debug.Log ("Game 1 controller: " + controller);
 	}
 	
 	// Update is called once per frame
@@ -37,8 +44,22 @@ public class BoardScript : MonoBehaviour {
         }
         else
         {
+			Debug.Log ("supcedoo");
             //CONTROLLER
-
+			float hAmt = InputHandler.Instance.accArr[1] * rotationRange; 
+			float vAmt = InputHandler.Instance.accArr[0] * rotationRange; 
+			
+			// accumulate x and y euler angles
+			xAngle = vAmt;
+			yAngle = hAmt;
+			
+			
+			// compute a new orientation from the euler angles
+			Quaternion q = Quaternion.Euler(xAngle, 0, yAngle);
+			
+			// set new orientation via ridgid body
+			//GetComponent<Rigidbody>().MoveRotation(q);
+			transform.rotation = Quaternion.Slerp (transform.rotation, q, slerpScale * Time.deltaTime);
         }
     }
 

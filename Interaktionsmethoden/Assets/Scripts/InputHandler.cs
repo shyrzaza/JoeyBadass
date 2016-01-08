@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO.Ports;
+using System;
+
 public class InputHandler : MonoBehaviour
 {
     public bool isActive;
-    SerialPort stream = new SerialPort("COM3", 115200);
+	SerialPort stream;
     string receivedData = "EMPTY";
 
     public bool buttonDownPressed;
@@ -21,6 +23,7 @@ public class InputHandler : MonoBehaviour
     public float[] sliderArr;
     public double micAbs;
     public float micValue;
+	public string portSting;
 
     int buttonVal;
 
@@ -28,7 +31,13 @@ public class InputHandler : MonoBehaviour
 
     void Awake()
     {
+		portSting = "COM" + Manager.getInstance ().port.ToString();
+		Debug.Log (portSting);
+		stream = new SerialPort(portSting, 115200);
         isActive = Manager.getInstance().controller;
+		Debug.Log ("InputHandler Controller: " + isActive);
+
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -42,8 +51,14 @@ public class InputHandler : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        stream.Open();
-        Debug.Log("Serial Port opened");
+		try{
+        	stream.Open();
+			Debug.Log("Serial Port opened");
+		}
+		catch(Exception ue){
+			Application.LoadLevel(0);
+			Debug.Log ("Couldnt open the Portooo");
+		}
 
 
         buttonDownArr = new int[4];
