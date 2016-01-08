@@ -15,7 +15,8 @@ public class Manager : MonoBehaviour
    public string name = "";
    public int port = 0;
    public bool advancedon = false;
-   public string highscoretext = ""; 
+   public string highscoretext = "";
+   public bool controller;
 
    //[SerializeField]
    private List<Highscore> scorelist = new List<Highscore>();

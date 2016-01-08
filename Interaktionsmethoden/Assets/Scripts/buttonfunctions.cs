@@ -32,7 +32,12 @@ public class buttonfunctions : MonoBehaviour {
    //for toggle
    public void ToggleAdvancedModeChange()
    {
-      Manager.getInstance().advancedon = !Manager.getInstance().advancedon;
+       Manager.getInstance().advancedon = !Manager.getInstance().advancedon;
+   }
+
+   public void ToggleControllerModeChange()
+   {
+       Manager.getInstance().controller = !Manager.getInstance().controller;
    }
 
    //for input field

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ButtonIndicatorScript : MonoBehaviour {
 
-    public float number;
+    public int number;
     public bool active;
 
     public static float timeActive = 5f;
@@ -16,9 +16,12 @@ public class ButtonIndicatorScript : MonoBehaviour {
 
     public bool paused;
 
+    private bool controller;
+
 	// Use this for initialization
 	void Start () {
         timeCounter = timeActive;
+        controller = InputHandler.Instance.isActive;
 	}
 	
 	// Update is called once per frame
@@ -38,10 +41,22 @@ public class ButtonIndicatorScript : MonoBehaviour {
                 Destroy(gameObject);
             }
 
-            if(Input.GetButtonDown(number+""))
+            if (!controller)
             {
-                active = false;
-                GetComponent<MeshRenderer>().material.color = Color.white;
+                if (Input.GetButtonDown(number + ""))
+                {
+                    active = false;
+                    GetComponent<MeshRenderer>().material.color = Color.white;
+                }
+            }
+            else
+            {
+                //Controller
+                if(InputHandler.Instance.getButtonDowns()[number] == 1)
+                {
+                    active = false;
+                    GetComponent<MeshRenderer>().material.color = Color.white;
+                }
             }
         }
         else

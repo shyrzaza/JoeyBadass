@@ -8,11 +8,13 @@ public class Game2PlayerController : MonoBehaviour {
     public float top;
     public float bottom;
 
-    public bool paused;
+    public float slerpSpeed;
 
+    public bool paused;
+    private bool controller;
 	// Use this for initialization
 	void Start () {
-	
+        controller = InputHandler.Instance.isActive;
 	}
 	
 	// Update is called once per frame
@@ -28,10 +30,25 @@ public class Game2PlayerController : MonoBehaviour {
                 return;
         }
 
-        float vSpeed = Input.GetAxisRaw("Game2");
+        if (!controller)
+        {
+            float vSpeed = Input.GetAxisRaw("Game2");
 
-        GetComponent<Rigidbody>().velocity = new Vector3(0f, vSpeed * speed, 0f);
+            GetComponent<Rigidbody>().velocity = new Vector3(0f, vSpeed * speed, 0f);
 
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, bottom, top), transform.position.z);
+            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, bottom, top), transform.position.z);
+        }
+        else
+        {
+            //CONTROLLER
+            //float[4]
+            float[] values = InputHandler.Instance.sliderArr;
+
+            float distance = top - bottom;
+            float position = values[0] * distance;
+            position = bottom + position;
+
+            transform.position = Vector3.Slerp(transform.position, new Vector3(transform.position.x, position, transform.position.z), slerpSpeed);
+        }
     }
 }

@@ -15,6 +15,7 @@ public class GameManagerScript : MonoBehaviour {
     public float[] gameStartTimes;
 
     public  float nextStartTime;
+    public bool controller;
 
     //advanced mode bool
     private bool advancedmode = false;
@@ -54,7 +55,8 @@ public class GameManagerScript : MonoBehaviour {
     }
 
     void Start()
-    {      
+    {
+        controller = InputHandler.Instance.isActive;
         status = 1;
        
         cameras[0].rect = new Rect(0f, 0f, 1f, 1f); 
@@ -85,20 +87,41 @@ public class GameManagerScript : MonoBehaviour {
     {
         if(gamePaused)
         {
-            //Wait for unpause
-            if(Input.GetButtonDown("unpause"))
+            if (!controller)
             {
-                //UNPAUSE
-                Debug.Log("unpaused");
-                gamePaused = false;
-                if (status == 1)
-                    pauseGames(false, true, true, true);
-                if (status == 2)
-                    pauseGames(false, false, true, true);
-                if (status == 3)
-                    pauseGames(false, false, false, true);
-                if (status == 4)
-                    pauseGames(false, false, false, false);
+                //Wait for unpause
+                if (Input.GetButtonDown("unpause"))
+                {
+                    //UNPAUSE
+                    Debug.Log("unpaused");
+                    gamePaused = false;
+                    if (status == 1)
+                        pauseGames(false, true, true, true);
+                    if (status == 2)
+                        pauseGames(false, false, true, true);
+                    if (status == 3)
+                        pauseGames(false, false, false, true);
+                    if (status == 4)
+                        pauseGames(false, false, false, false);
+                }
+            }
+            else
+            {
+                //CONTROLLER
+                if(InputHandler.Instance.getButtonDowns()[0] == 1)
+                {
+                    //UNPAUSE
+                    Debug.Log("unpaused");
+                    gamePaused = false;
+                    if (status == 1)
+                        pauseGames(false, true, true, true);
+                    if (status == 2)
+                        pauseGames(false, false, true, true);
+                    if (status == 3)
+                        pauseGames(false, false, false, true);
+                    if (status == 4)
+                        pauseGames(false, false, false, false);
+                }
             }
         }
         else

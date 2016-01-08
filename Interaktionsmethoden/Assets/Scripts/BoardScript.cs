@@ -9,9 +9,12 @@ public class BoardScript : MonoBehaviour {
     public GameObject ballPrefab;
     private GameObject ball;
     private bool paused;
+    private bool controller;
+
 	// Use this for initialization
 	void Start () {
         StartGame();
+        controller = InputHandler.Instance.isActive;
 	}
 	
 	// Update is called once per frame
@@ -24,11 +27,19 @@ public class BoardScript : MonoBehaviour {
         if (paused)
             return;
 
-        float xAxis = -1 * Input.GetAxis("Horizontal");
-        float yAxis = Input.GetAxis("Vertical");
+        if (!controller)
+        {
+            float xAxis = -1 * Input.GetAxis("Horizontal");
+            float yAxis = Input.GetAxis("Vertical");
 
-        //transform.rotation *= Quaternion.Euler(xAxis * rotateSpeed, 0f, 0f);
-        transform.rotation = Quaternion.Slerp(transform.rotation, transform.rotation * Quaternion.Euler(yAxis * rotateSpeed,0f,xAxis * rotateSpeed), slerpSpeed);
+            //transform.rotation *= Quaternion.Euler(xAxis * rotateSpeed, 0f, 0f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, transform.rotation * Quaternion.Euler(yAxis * rotateSpeed, 0f, xAxis * rotateSpeed), slerpSpeed);
+        }
+        else
+        {
+            //CONTROLLER
+
+        }
     }
 
     void StartGame()
