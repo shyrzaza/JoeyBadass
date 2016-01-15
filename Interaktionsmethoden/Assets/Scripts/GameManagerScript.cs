@@ -108,7 +108,7 @@ public class GameManagerScript : MonoBehaviour {
             else
             {
                 //CONTROLLER
-                if(InputHandler.Instance.getButtonDowns()[0] == 1)
+                if(InputHandler.Instance.getButtonDowns()[3] == 1)
                 {
                     //UNPAUSE
                     Debug.Log("unpaused");

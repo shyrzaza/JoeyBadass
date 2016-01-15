@@ -38,12 +38,21 @@ public class Game4PlayerController : MonoBehaviour {
             }
         }
         else
-        {
-            //CONTROLLER
-            if(InputHandler.Instance.micValue >= micThreshold)
-            {
-                rb.AddForce(Vector3.up * verticalSpeed * InputHandler.Instance.micValue, ForceMode.Acceleration);
-            }
+		{	
+			//CONTROLLER
+			if(Manager.getInstance().advancedon)
+			{	
+            	if(InputHandler.Instance.micValue >= micThreshold)
+            	{
+            	    rb.AddForce(Vector3.up * verticalSpeed * InputHandler.Instance.micValue, ForceMode.Acceleration);
+            	}
+			}
+			else{
+				if(InputHandler.Instance.buttonUpPressed)
+				{
+					rb.AddForce(Vector3.up * verticalSpeed * 1, ForceMode.Acceleration);
+				}
+			}
         }
 
         if(transform.position.z < loseValue)

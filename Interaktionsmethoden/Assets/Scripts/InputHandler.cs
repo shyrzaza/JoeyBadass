@@ -13,10 +13,16 @@ public class InputHandler : MonoBehaviour
     public bool buttonLeftPressed;
     public bool buttonUpPressed;
     public bool buttonRightPressed;
+	public bool buttonRightRightPressed;
+	public bool buttonLeftLeftPressed;
+
     int leftButtonMask = 1 << 9;
     int downButtonMask = 1 << 6;
     int rightButtonMask = 1 << 8;
     int upButtonMask = 1 << 7;
+	int rightRightButtonMask = 1 << 10;
+	int leftLeftButtonMask = 1 << 11;
+
     public int[] buttonDownArr;
     public int[] buttonPressed;
     public float[] accArr;
@@ -61,8 +67,8 @@ public class InputHandler : MonoBehaviour
 		}
 
 
-        buttonDownArr = new int[4];
-        buttonPressed = new int[4];
+        buttonDownArr = new int[6];
+        buttonPressed = new int[6];
         accArr = new float[3];
         sliderArr = new float[4];
 
@@ -107,8 +113,8 @@ public class InputHandler : MonoBehaviour
     }
     void buttonDowns(int buttonVal)
     {
-        buttonDownArr = new int[4];
-        buttonPressed = new int[4];
+        buttonDownArr = new int[6];
+        buttonPressed = new int[6];
 
         if ((leftButtonMask & buttonVal) >= 1)
         {
@@ -142,6 +148,25 @@ public class InputHandler : MonoBehaviour
                 buttonDownArr[3] = 1;
             }
         }
+
+		if ((rightRightButtonMask & buttonVal) >= 1)
+		{
+			buttonPressed[4] = 1;
+			if (!buttonRightRightPressed)
+			{
+				buttonDownArr[4] = 1;
+			}
+		}
+
+		if ((leftLeftButtonMask & buttonVal) >= 1)
+		{
+			buttonPressed[5] = 1;
+			if (!buttonLeftLeftPressed)
+			{
+				buttonDownArr[5] = 1;
+			}
+		}
+
         buttonLeftPressed = ((leftButtonMask & buttonVal) >= 1);
 
         buttonRightPressed = ((rightButtonMask & buttonVal) >= 1);
@@ -149,6 +174,10 @@ public class InputHandler : MonoBehaviour
         buttonUpPressed = ((upButtonMask & buttonVal) >= 1);
 
         buttonDownPressed = ((downButtonMask & buttonVal) >= 1);
+
+		buttonRightRightPressed = ((rightRightButtonMask & buttonVal) >= 1);
+
+		buttonLeftLeftPressed = ((leftLeftButtonMask & buttonVal) >= 1);
     }
 
     public void SetOutput(string output)

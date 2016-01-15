@@ -45,9 +45,8 @@ public class Game2PlayerController : MonoBehaviour {
             //float[4]
             float[] values = InputHandler.Instance.sliderArr;
 
-            float distance = top - bottom;
-			Debug.Log (values[0]);
-            float position = values[0] * distance;
+            float distance = top - Mathf.Abs(bottom);
+            float position = ((values[3]/2)+0.5f) * distance;
             position = bottom + position;
 
             transform.position = Vector3.Slerp(transform.position, new Vector3(transform.position.x, position, transform.position.z), slerpSpeed);

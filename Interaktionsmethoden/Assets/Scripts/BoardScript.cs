@@ -44,7 +44,6 @@ public class BoardScript : MonoBehaviour {
         }
         else
         {
-			Debug.Log ("supcedoo");
             //CONTROLLER
 			float hAmt = InputHandler.Instance.accArr[1] * rotationRange; 
 			float vAmt = InputHandler.Instance.accArr[0] * rotationRange; 

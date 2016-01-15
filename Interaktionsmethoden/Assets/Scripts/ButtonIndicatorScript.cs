@@ -51,21 +51,83 @@ public class ButtonIndicatorScript : MonoBehaviour {
             }
             else
             {
+
                 //Controller
-                if(InputHandler.Instance.getButtonDowns()[number] == 1)
-                {
-                    active = false;
-                    GetComponent<MeshRenderer>().material.color = Color.white;
-                }
+				if(number == 0)
+				{
+					if(InputHandler.Instance.getButtonDowns()[5] == 1)
+					{
+						active = false;
+						GetComponent<MeshRenderer>().material.color = Color.white;
+					}
+				}
+				if(number == 1)
+				{
+					if(InputHandler.Instance.getButtonDowns()[0] == 1)
+					{
+						active = false;
+						GetComponent<MeshRenderer>().material.color = Color.white;
+					}
+				}
+				if(number == 2)
+				{
+					if(InputHandler.Instance.getButtonDowns()[1] == 1)
+					{
+						active = false;
+						GetComponent<MeshRenderer>().material.color = Color.white;
+					}
+				}
+				if(number == 3)
+				{
+					if(InputHandler.Instance.getButtonDowns()[4] == 1)
+					{
+						active = false;
+						GetComponent<MeshRenderer>().material.color = Color.white;
+					}
+				}
             }
         }
         else
         {
             text.text = "";
-            if (Input.GetButtonDown(number + ""))
-            {
-                GameManagerScript.Instance.lost(3);
-            }
+			if(!controller)
+			{
+            	if (Input.GetButtonDown(number + ""))
+            	{
+            	    GameManagerScript.Instance.lost(3);
+            	}
+			}
+			else{
+				//Controller
+				if(number == 0)
+				{
+					if(InputHandler.Instance.getButtonDowns()[5] == 1)
+					{
+						GameManagerScript.Instance.lost(3);
+					}
+				}
+				if(number == 1)
+				{
+					if(InputHandler.Instance.getButtonDowns()[0] == 1)
+					{
+						GameManagerScript.Instance.lost(3);
+					}
+				}
+				if(number == 2)
+				{
+					if(InputHandler.Instance.getButtonDowns()[1] == 1)
+					{
+						GameManagerScript.Instance.lost(3);
+					}
+				}
+				if(number == 3)
+				{
+					if(InputHandler.Instance.getButtonDowns()[4] == 1)
+					{
+						GameManagerScript.Instance.lost(3);
+					}
+				}
+			}
         }
 	}
 
