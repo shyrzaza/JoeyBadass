@@ -16,11 +16,15 @@ public class ButtonIndicatorScript : MonoBehaviour {
 
     public bool paused;
 
+    public GameObject particlesys;
+
+    private ParticleSystem runningparticlesys;
     private bool controller;
 
 	// Use this for initialization
 	void Start () {
         timeCounter = timeActive;
+        text.color = Color.white;
         controller = InputHandler.Instance.isActive;
 	}
 	
@@ -43,10 +47,9 @@ public class ButtonIndicatorScript : MonoBehaviour {
 
             if (!controller)
             {
-                if (Input.GetButtonDown(number + ""))
+                if (Input.GetButtonDown(number +1 + ""))
                 {
-                    active = false;
-                    GetComponent<MeshRenderer>().material.color = Color.white;
+                   deactivate();
                 }
             }
             else
@@ -57,32 +60,28 @@ public class ButtonIndicatorScript : MonoBehaviour {
 				{
 					if(InputHandler.Instance.getButtonDowns()[5] == 1)
 					{
-						active = false;
-						GetComponent<MeshRenderer>().material.color = Color.white;
+                  deactivate();
 					}
 				}
 				if(number == 1)
 				{
 					if(InputHandler.Instance.getButtonDowns()[0] == 1)
 					{
-						active = false;
-						GetComponent<MeshRenderer>().material.color = Color.white;
+                  deactivate();
 					}
 				}
 				if(number == 2)
 				{
 					if(InputHandler.Instance.getButtonDowns()[1] == 1)
 					{
-						active = false;
-						GetComponent<MeshRenderer>().material.color = Color.white;
+                  deactivate();
 					}
 				}
 				if(number == 3)
 				{
 					if(InputHandler.Instance.getButtonDowns()[4] == 1)
 					{
-						active = false;
-						GetComponent<MeshRenderer>().material.color = Color.white;
+                  deactivate();
 					}
 				}
             }
@@ -92,7 +91,7 @@ public class ButtonIndicatorScript : MonoBehaviour {
             text.text = "";
 			if(!controller)
 			{
-            	if (Input.GetButtonDown(number + ""))
+            	if (Input.GetButtonDown(number +1 + ""))
             	{
             	    GameManagerScript.Instance.lost(3);
             	}
@@ -131,10 +130,22 @@ public class ButtonIndicatorScript : MonoBehaviour {
         }
 	}
 
+   public void deactivate()
+   {
+      //buggen noch
+      //Destroy(runningparticlesys);
+      active = false;
+      GetComponent<MeshRenderer>().material.color = Color.white;
+   }
+
     public void setActive()
     {
         timeCounter = timeActive;
         active = true;
+       //particle buggen noch
+       /*  runningparticlesys = (ParticleSystem) Instantiate(particlesys, gameObject.transform.position,  Quaternion.identity);
+        runningparticlesys.startColor = col;
+        runningparticlesys.Simulate(0.2f, false, true);*/
         GetComponent<MeshRenderer>().material.color = col;
     }
 }

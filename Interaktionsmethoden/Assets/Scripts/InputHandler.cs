@@ -57,6 +57,10 @@ public class InputHandler : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+       if (!isActive)
+       {
+          return;
+       }
 		try{
         	stream.Open();
 			Debug.Log("Serial Port opened");
@@ -77,6 +81,10 @@ public class InputHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       if (!isActive)
+       {
+          return;
+       }
         stream.Write("1");
         receivedData = stream.ReadLine();
         buttonVal = System.Convert.ToInt32(receivedData, 16);
