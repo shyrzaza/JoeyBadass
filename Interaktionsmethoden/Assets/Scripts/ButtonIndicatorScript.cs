@@ -18,7 +18,7 @@ public class ButtonIndicatorScript : MonoBehaviour {
 
     public GameObject particlesys;
 
-    private ParticleSystem runningparticlesys;
+    private GameObject runningparticlesys;
     private bool controller;
 
 	// Use this for initialization
@@ -133,7 +133,7 @@ public class ButtonIndicatorScript : MonoBehaviour {
    public void deactivate()
    {
       //buggen noch
-      //Destroy(runningparticlesys);
+      Destroy(runningparticlesys);
       active = false;
       GetComponent<MeshRenderer>().material.color = Color.white;
    }
@@ -143,9 +143,9 @@ public class ButtonIndicatorScript : MonoBehaviour {
         timeCounter = timeActive;
         active = true;
        //particle buggen noch
-       /*  runningparticlesys = (ParticleSystem) Instantiate(particlesys, gameObject.transform.position,  Quaternion.identity);
-        runningparticlesys.startColor = col;
-        runningparticlesys.Simulate(0.2f, false, true);*/
+        runningparticlesys = (GameObject) Instantiate(particlesys, gameObject.transform.position,  Quaternion.identity);
+        runningparticlesys.GetComponent<ParticleSystem>().startColor = col;
+        runningparticlesys.GetComponent<ParticleSystem>().Play();
         GetComponent<MeshRenderer>().material.color = col;
     }
 }

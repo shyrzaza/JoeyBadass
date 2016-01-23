@@ -8,6 +8,7 @@ public class buttonfunctions : MonoBehaviour {
    public InputField nameobj;
    public Text highscoreTextobj;
    public Toggle advancedobj;
+   public GameObject Info;
 
    public void Start()
    {
@@ -72,4 +73,14 @@ public class buttonfunctions : MonoBehaviour {
    }
    #endregion 
 
+   public void OnInfoPress()
+   {
+      Info.SetActive(true);
+   }
+
+   public void OnQuitInfo()
+   {
+      Debug.Log("Quit info");
+      Info.SetActive(false);
+   }
 }

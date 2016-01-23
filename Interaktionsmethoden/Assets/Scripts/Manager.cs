@@ -83,6 +83,7 @@ public class Manager : MonoBehaviour
             break;
          }
       }
+     
       scorelist.Insert(i, new Highscore(name, timeinsec));
    }
 
