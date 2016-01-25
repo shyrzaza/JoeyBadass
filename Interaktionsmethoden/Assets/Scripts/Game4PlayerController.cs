@@ -4,10 +4,13 @@ using System.Collections;
 public class Game4PlayerController : MonoBehaviour {
 
     public float verticalSpeed;
+
     private Rigidbody rb;
     private float loseValue;
     public float mercyOffset;
     public float micThreshold;
+
+    public GameObject ParticlePrefab;
 
     private bool controller;
 
@@ -35,6 +38,8 @@ public class Game4PlayerController : MonoBehaviour {
             {
                 //Debug.Log("adding Force");
                 rb.AddForce(Vector3.up * verticalSpeed, ForceMode.Acceleration);
+
+                Instantiate(ParticlePrefab, gameObject.transform.position, Quaternion.identity);
             }
         }
         else
@@ -51,6 +56,8 @@ public class Game4PlayerController : MonoBehaviour {
 				if(InputHandler.Instance.buttonUpPressed)
 				{
 					rb.AddForce(Vector3.up * verticalSpeed * 1, ForceMode.Acceleration);
+               //create jump particles
+               Instantiate(ParticlePrefab, gameObject.transform.position, Quaternion.identity);
 				}
 			}
         }
