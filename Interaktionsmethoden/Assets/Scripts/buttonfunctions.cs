@@ -21,38 +21,35 @@ public class buttonfunctions : MonoBehaviour {
       Application.LoadLevel(sceneindex);
    }
 
-   public void updateMenu(string name, int port, bool advancedon, string highscoretext)
+   public void updateMenu(string name, int port, bool controlleron, bool advancedon, string highscoretext)
    {
       Debug.Log("Updating UI in Level " + Application.loadedLevel + ", advanced: " + advancedon);
       nameobj.text = name;
       portobj.text = port.ToString();
-      advancedobj.isOn = advancedon; // may not work correctly
+      controllerobj.isOn = controlleron;
+      advancedobj.isOn = advancedon; 
       highscoreTextobj.text = highscoretext;
-      if (!Manager.getInstance().controller)
-      {
-         advancedobj.gameObject.SetActive(false);
-      }
-      else
-      {
-         advancedobj.gameObject.SetActive(true);
-      }
+      ToggleControllerModeChange();
+      
    }
 
    #region UIhandling
    //for toggle
    public void ToggleAdvancedModeChange()
    {
-       Manager.getInstance().advancedon = !Manager.getInstance().advancedon;
+       Manager.getInstance().advancedon = advancedobj.isOn;
 
    }
 
    public void ToggleControllerModeChange()
    {     
-       Manager.getInstance().controller = !Manager.getInstance().controller;
+       Manager.getInstance().controller = controllerobj.isOn;
        //if controller is switched of
-       if (!Manager.getInstance().controller)
+       if (!controllerobj.isOn)
        {
           advancedobj.gameObject.SetActive(false);
+          advancedobj.isOn = false;
+          Manager.getInstance().advancedon = false;
        }
        else
        {

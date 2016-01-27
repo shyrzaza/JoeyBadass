@@ -16,7 +16,7 @@ public class Manager : MonoBehaviour
    public int port = 0;
    public bool advancedon = false;
    public string highscoretext = "";
-   public bool controller;
+   public bool controller = false;
 
    //[SerializeField]
    private List<Highscore> scorelist = new List<Highscore>();
@@ -59,7 +59,7 @@ public class Manager : MonoBehaviour
          Debug.Log("Loading score");
          loadHighscore();
          scoreListToText();
-         GameObject.FindObjectOfType<buttonfunctions>().updateMenu(name, port, advancedon, highscoretext);
+         GameObject.FindObjectOfType<buttonfunctions>().updateMenu(name, port, controller,advancedon, highscoretext);
       }
    }
 
