@@ -8,6 +8,7 @@ public class buttonfunctions : MonoBehaviour {
    public InputField nameobj;
    public Text highscoreTextobj;
    public Toggle advancedobj;
+   public Toggle controllerobj;
    public GameObject Info;
 
    public void Start()
@@ -27,6 +28,14 @@ public class buttonfunctions : MonoBehaviour {
       portobj.text = port.ToString();
       advancedobj.isOn = advancedon; // may not work correctly
       highscoreTextobj.text = highscoretext;
+      if (!Manager.getInstance().controller)
+      {
+         advancedobj.gameObject.SetActive(false);
+      }
+      else
+      {
+         advancedobj.gameObject.SetActive(true);
+      }
    }
 
    #region UIhandling
@@ -34,11 +43,21 @@ public class buttonfunctions : MonoBehaviour {
    public void ToggleAdvancedModeChange()
    {
        Manager.getInstance().advancedon = !Manager.getInstance().advancedon;
+
    }
 
    public void ToggleControllerModeChange()
-   {
+   {     
        Manager.getInstance().controller = !Manager.getInstance().controller;
+       //if controller is switched of
+       if (!Manager.getInstance().controller)
+       {
+          advancedobj.gameObject.SetActive(false);
+       }
+       else
+       {
+          advancedobj.gameObject.SetActive(true);
+       }
    }
 
    //for input field

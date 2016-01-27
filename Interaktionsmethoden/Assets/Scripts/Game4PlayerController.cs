@@ -38,7 +38,6 @@ public class Game4PlayerController : MonoBehaviour {
             {
                 //Debug.Log("adding Force");
                 rb.AddForce(Vector3.up * verticalSpeed, ForceMode.Acceleration);
-
                 Instantiate(ParticlePrefab, gameObject.transform.position, Quaternion.identity);
             }
         }

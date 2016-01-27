@@ -41,6 +41,10 @@ public class Manager : MonoBehaviour
          Debug.Log("Creating Manager");
          GameObject manager = new GameObject("[GameManager]");
          instance = manager.AddComponent<Manager>();
+         manager.AddComponent<AudioSource>();
+         manager.GetComponent<AudioSource>().clip = (AudioClip)Resources.Load("Pixelland");
+         manager.GetComponent<AudioSource>().loop = true;
+         manager.GetComponent<AudioSource>().Play();
          DontDestroyOnLoad(manager);
       }
       return instance;
